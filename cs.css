@@ -1,0 +1,384 @@
+
+
+body {
+    background-color: #f9f9fb;
+    color: #333;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    display: flex;
+  justify-content: flex-end;
+  justify-content: space-between;
+    align-items: center;
+    padding: 2px 8%;
+   z-index: 1000; 
+}
+
+.logo {
+    font-size: 50px;
+    font-weight: 700;
+    color:#1e1e24;
+}
+
+.logo span {
+    color: #574ede;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+
+}
+
+nav a:hover, nav a.active {
+    color:#3498db;
+}
+
+
+
+.hero{
+    height: 100vh;
+    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-content h1 span {
+    color:#3498db;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    color:#ddd;
+}
+
+.btn {
+    padding: 10px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+     display: inline-block;
+}
+
+.btn.primary {
+    background: #6c63ff;
+    color: #fff;
+}
+
+.btn.primary:hover {
+    background: #574ede;
+}
+
+.btn.secondary {
+    background: #fff;
+    color: #6c63ff;
+    border: 2px solid #6c63ff;
+}
+
+.btn.secondary:hover {
+    background: #6c63ff;
+    color: #fff;
+}
+
+
+gap
+section {
+    padding: 100px 10% 80px 10%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 50px;
+    color:#0284c7;
+}
+
+
+
+about
+.about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+color: #0284c7;
+}
+
+.about-text p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #666;
+    margin-bottom: 20px;
+}
+.education-section {
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1e293b;
+}
+
+.education-card {
+  background: #ffffff;
+  padding: 20px;
+  margin-bottom: 18px;
+  border-left: 4px solid #2563eb;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edu-status {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.institution {
+  color: #475569;
+  margin: 6px 0 10px;
+}
+
+.courses-list ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  padding: 0;
+}
+
+.courses-list li {
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+}
+
+.projects-section {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.projects-section h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: #0369a1;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* ካርዶቹን ጎን ለጎን የሚያስቀምጥ Grid */
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* የእያንዳንዱ ፕሮጀክት ካርድ ዲዛይን */
+.project-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 12px red;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* ማውሱ ካርዱ ላይ ሲያርፍ ወደ ላይ ከፍ እንዲል */
+.project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.project-badge {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0284c7;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    width: fit-content;
+}
+
+
+/* የቁልፎች (Buttons) ዲዛይን */
+.project-links {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #0284c7;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0369a1;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #0284c7;
+    border: 1.5px solid #0284c7;
+}
+
+.btn-outline:hover {
+    background-color: #0284c7;
+    color: #ffffff;
+}
+
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.skill-item {
+    background: #fff;
+    padding: 12px 25px;
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    font-weight: 500;
+    color: #444;
+    border-left: 4px solid #6c63ff;
+}
+
+.timeline {
+    max-width: 700px;
+    margin: 0 auto;
+  
+}
+
+.timeline-item h3 {
+    font-size: 18px;
+    color: #222;
+}
+
+.timeline-item span {
+    font-size: 13px;
+    color: #574ede;
+    font-weight: 600;
+    
+    margin-bottom: 10px;
+}
+
+.timeline-item p {
+    font-size: 14px;
+    color: #666;
+}
+.contact-box {
+    max-width: 300px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 4px;
+  
+   
+}
+
+.contact-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    
+}
+
+.contact-box input, 
+.contact-box textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 3px solid #3498db;
+    font-size: 15px;
+}
+
+.contact-box input:focus, 
+.contact-box textarea:focus {
+    border-color: #6c63ff;
+}
+footer {
+    background: #1e1e24;
+    color: #f9f9fb;
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 30px;
+    line-height:1;
+}
+
+footer p a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 2px;
+}
+
+footer p a:hover {
+    text-decoration: underline;
+}
+.foot a{
+    color:#574ede;
+    size: 1px;
+    position: 1.5s;
+    display: flex;
+    gap: 200px;
+  transform: translateY(-3px);}
+.foot {
+    display: flex;
+    gap: 20px;
+}

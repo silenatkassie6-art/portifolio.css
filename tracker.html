@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Study Tracker with Due Date</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            background: #e8f4f8;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input[type="text"] { flex: 2; }
+        input[type="date"] { flex: 1.2; }
+        select { flex: 1; }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+        button:hover { background-color: #1f6391; }
+        ul { list-style: none; padding: 0; }
+        li {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #2980b9;
+        }
+        li.High { border-left-color: #e74c3c; }
+        li.Medium { border-left-color: #f39c12; }
+        li.Low { border-left-color: #2ecc71; }
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        .task-details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .task-meta {
+            font-size: 12px;
+            color: #666;
+        }
+        .actions button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            font-size: 12px;
+            flex: none;
+        }
+        .done-btn { background-color: #27ae60; }
+        .del-btn { background-color: #c0392b; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📚 የጥናት እና አሳይመንት መከታተያ (ከቀን ገደብ ጋር)</h2>
+    
+    <!-- የስራዎች ብዛት ማሳያ -->
+    <div class="stats">
+        <span>ጠቅላላ: <span id="totalCount">0</span></span>
+        <span>የተጠናቀቁ: <span id="completedCount">0</span></span>
+    </div>
+
+    <!-- አዲስ ስራ ማስገቢያ ቅጽ (ከተጨማሪ ማስታወሻ ጋር) -->
+    <div class="form-group">
+        <div class="form-row">
+            <input type="text" id="courseInput" placeholder="የኮርስ ስም (ለምሳሌ: OOP)" style="flex: 1;">
+            <input type="text" id="taskInput" placeholder="የሚሰራው ስራ (ለምሳሌ: Lab 1)" style="flex: 1;">
+        </div>
+        <div class="form-row">
+            <input type="text" id="descInput" placeholder="ዝርዝር ማስታወሻ (አማራጭ)" style="flex: 1;">
+            <input type="text" id="linkInput" placeholder="የዝርዝር ሊንክ/URL (አማራጭ)" style="flex: 1;">
+        </div>
+        <div class="form-row">
+            <input type="text" id="descInput" placeholder="ተጨማሪ ማስታወሻ/ዝርዝር (አማራጭ)" style="flex: 2;">
+            <input type="date" id="dateInput" title="የመጨረሻ ቀን" style="flex: 1;">
+            <select id="priorityInput" style="flex: 1;">
+                <option value="High">ከፍተኛ (High)</option>
+                <option value="Medium">መካከለኛ (Medium)</option>
+                <option value="Low">ዝቅተኛ (Low)</option>
+            </select>
+            <button onclick="addTask()" style="flex: 1;">ጨምር</button>
+        </div>
+    </div>
+
+    <!-- የተመዘገቡ ስራዎች ዝርዝር -->
+    <ul id="taskList"></ul>
+    <div style="margin-top: 30px; padding: 15px; background: #e8f4f8; border-radius: 8px; text-align: center; border-left: 5px solid #2980b9;">
+        <p style="margin: 0 0 10px 0; font-weight: bold; color: #2c3e50;">ይህንን ትራከር የሠራሁበትን ሙሉ ፖርትፎሊዮ ማየት ትፈልጋለህ?</p>
+        <a href="portifolio.html" target="_blank" style="display: inline-block; background-color: #2980b9; color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+            ወደ ፖርትፎሊዮ ገጽ ሄድ
+        </a>
+    </div>
+</div>
+
+<script>
+    let tasks = JSON.parse(localStorage.getItem('studyTasksWithDate')) || [];
+    renderTasks();
+
+    function addTask() {
+        const course = document.getElementById('courseInput').value.trim();
+        const task = document.getElementById('taskInput').value.trim();
+        const link = document.getElementById('linkInput').value.trim();
+        const dueDate = document.getElementById('dateInput').value;
+        const priority = document.getElementById('priorityInput').value();
+
+        if (course === '' || task === '') {
+            alert('እባክሽ የኮርሱን ስም እና የሚሰራውን ስራ አስገቢ!');
+            return;
+        }
+
+        const newTask = {
+            id: Date.now(),
+            course: course,
+            task: task,
+            link: link,
+            dueDate: dueDate ? dueDate : 'ቀን አልተቀመጠም',
+            priority: priority,
+            completed: false
+        };
+
+        tasks.push(newTask);
+        saveAndRender();
+
+        // ሳጥኖቹን ባዶ ማድረግ
+        document.getElementById('courseInput').value = '';
+        document.getElementById('taskInput').value = '';
+        document.getElementById('linkInput').value = '';
+        document.getElementById('dateInput').value = '';
+    }
+
+    function toggleComplete(id) {
+        tasks = tasks.map(t => {
+            if (t.id === id) {
+                return { ...t, completed: !t.completed };
+            }
+            return t;
+        });
+        saveAndRender();
+    }
+
+    function deleteTask(id) {
+        tasks = tasks.filter(t => t.id !== id);
+        saveAndRender();
+    }
+
+    function saveAndRender() {
+        localStorage.setItem('studyTasksWithDate', JSON.stringify(tasks));
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const list = document.getElementById('taskList');
+        list.innerHTML = '';
+
+        let completed = 0;
+
+        tasks.forEach(t => {
+            if (t.completed) completed++;
+
+            const li = document.createElement('li');
+            li.className = `${t.priority} ${t.completed ? 'completed' : ''}`;
+            let taskDisplay = t.link 
+                ? `<a href="${t.link}" target="_blank">[${t.course}] - ${t.task} 🔗</a>` 
+                : `<strong>[${t.course}] - ${t.task}</strong>`;
+                let linkHtml = t.link 
+                ? `<p><strong>ሊንክ:</strong> <a href="${t.link}" target="_blank" onclick="event.stopPropagation()">ሰነዱን ክፈት 🔗</a></p>` 
+                : `<p><strong>ሊንክ:</strong> የለም</p>`;
+            li.innerHTML = `
+          <div class="task-main">
+                    <div class="task-details">
+                        <strong>[${t.course}] - ${t.task}</strong>
+                        <span class="task-meta">📅 የመጨረሻ ቀን: ${t.dueDate} | ⚡ ደረጃ: ${t.priority} (ለማየት እዚህ ንካ)</span>
+                    </div>
+                    <div class="actions">
+                        <button class="done-btn" onclick="toggleComplete(${t.id}, event)">✓</button>
+                        <button class="del-btn" onclick="deleteTask(${t.id}, event)">✕</button>
+                    </div>
+                </div>
+                <div class="task-expanded">
+                    <p><strong>የኮርስ ስም:</strong> ${t.course}</p>
+                    <p><strong>የሚሰራው ስራ:</strong> ${t.task}</p>
+                    <p><strong>ዝርዝር ማስታወሻ:</strong> ${t.desc ? t.desc : 'ምንም ተጨማሪ ማስታወሻ የለም'}</p>
+                    ${linkHtml} <!-- 🌟 [ቦታ 3-ለ) የተዘረጋው ዝርዝር ውስጥ ሊንኩ የሚታይበት ቦታ -->
+                    <p><strong>የመጨረሻ ቀን:</strong> ${t.dueDate}</p>
+                    <p><strong>የአስቸኳይነት ደረጃ:</strong> ${t.priority}</p>
+                </div>
+            `;
+            list.appendChild(li);
+        });
+
+        document.getElementById('totalCount').innerText = tasks.length;
+        document.getElementById('completedCount').innerText = completed;
+    }
+</script>
+
+</body>
+</html>
